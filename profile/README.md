@@ -25,12 +25,12 @@ The current stack is fragmented. We are building the missing orchestration layer
 
 #### 🟢 Gantral (Open Source)
 > *Status: In Development (Private Beta)*
-> **The "Kubernetes" for AI Agents.**
+> **The Service Mesh for AI Agents.**
 >
-> Gantral is a cloud-native protocol for defining, executing, and auditing agentic workflows. It provides the standard for:
-> - **Human-in-the-Loop (HITL)** escalation patterns.
-> - **Deterministic Replay** of agent actions.
-> - **Process-Level Governance** across heterogenous agent fleets.
+> Just as Istio manages traffic between microservices, Gantral manages **intent and execution** between agents.
+> - **Protocol:** Standardized "Intent-Plan-Execute" lifecycle.
+> - **Governance:** Policy-as-Code checks before any agent tool use.
+> - **Audit:** Full replayability of agent reasoning chains.
 >
 > 🔜 *Public Repo launching Q1 2026. [Request Early Access](mailto:abhishek@rainminds.com?subject=Gantral%20Early%20Access)*
 
@@ -48,7 +48,7 @@ The current stack is fragmented. We are building the missing orchestration layer
 ### 🤝 Community & Standards
 We believe in "Listen, Then Lead." We are actively participating in:
 - **CNCF TAG App Delivery** (Platforms Working Group)
-- **AI Alliance** (Safe AI Governance)
+<!-- - **AI Alliance** (Safe AI Governance) -->
 
 We are defining the **"Agent Governance Standard"** before we ship the code.
 
