@@ -25,30 +25,26 @@ We standardize how AI workflows:
 - escalate risk,
 - and prove accountability.
 
-```
-
+```mermaid
 graph TD
-subgraph Enterprise["Enterprise Protocols"]
-Systems[Jira / GitHub / CI-CD]
-Policies[Compliance / RBAC]
-end
+  subgraph Enterprise["Enterprise Protocols"]
+    Systems[Jira / GitHub / CI-CD]
+    Policies[Compliance / RBAC]
+  end
 
-```
-subgraph Rainminds["Rainminds Control Plane"]
-Engine[Execution Engine]
-HITL[HITL State Machine]
-Audit[Immutable Audit Log]
-end
+  subgraph Rainminds["Rainminds Control Plane"]
+    Engine[Execution Engine]
+    HITL[HITL State Machine]
+    Audit[Immutable Audit Log]
+  end
 
-subgraph Agents["Agent Layer"]
-Frameworks[LangChain / Vellum / Custom]
-Models[LLMs / Inference]
-end
+  subgraph Agents["Agent Layer"]
+    Frameworks[LangChain / Vellum / Custom]
+    Models[LLMs / Inference]
+  end
 
-Enterprise <--> Rainminds
-Rainminds <--> Agents
-```
-
+  Enterprise <--> Rainminds
+  Rainminds <--> Agents
 ```
 
 ---
