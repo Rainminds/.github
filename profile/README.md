@@ -49,15 +49,20 @@ graph TD
 
 ---
 
-## ❗ What Rainminds Is (and Is Not)
+## ❗ What We Build (and What We Don’t)
 
-### Rainminds **IS**
-- An execution control plane for AI workflows
+Rainminds builds and stewards two tightly-coupled projects:
+
+- **Gantral** — the open-source AI execution control plane
+- **Gantrio** — the managed enterprise platform built on top of Gantral
+
+### Gantral IS
+- An AI execution control plane
 - A system of record for AI + human decisions
-- Infrastructure for HITL, policy enforcement, and auditability
+- Infrastructure for Human-in-the-Loop (HITL), policy enforcement, and auditability
 - Framework-agnostic and vendor-neutral
 
-### Rainminds **IS NOT**
+### Gantral IS NOT
 - An agent builder
 - An autonomous AI platform
 - A CI/CD or workflow engine replacement
