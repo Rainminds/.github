@@ -70,13 +70,26 @@ Rainminds builds and stewards two tightly-coupled projects:
 
 ---
 
+## 🛡️ Compliance & Risk Outcomes
+
+We designed the Rainminds control plane to satisfy strict regulatory frameworks out of the box. Implementation directly supports compliance with:
+
+| Standard | Outcome via Rainminds |
+| :--- | :--- |
+| **EU AI Act (Art. 14)** | **Human Oversight:** Mechanical guarantee that high-risk agents cannot execute without human state transition (`WAITING_FOR_HUMAN`). |
+| **NIST AI RMF** | **Governance:** Policy-as-code ensures legal/risk requirements are enforced physically at the infrastructure layer. |
+| **Banking (SR 11-7)** | **Effective Challenge:** Immutable logs capture *why* humans rejected/overrode AI, creating the feedback loop required by model risk auditors. |
+| **SOC 2 Type II** | **Auditability:** Tamper-evident execution ledgers prove exactly who approved what, and when. |
+
+---
+
 ## 🛠 Projects
 
 ### 🟢 [Gantral](https://github.com/Rainminds/gantral) (Open Source)
 **Status: In Development (Private Beta)**  
 *The Standard for Safe AI Execution.*
 
-Just as **Istio** manages traffic between microservices, **Gantral** manages **authority and execution state** between AI agents and humans.
+Just as  **Istio** manages traffic between microservices, **Gantral** manages **risk and authority** between AI agents and humans.
 
 **Core ideas:**
 - Control, not autonomy
