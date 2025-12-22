@@ -149,6 +149,27 @@ We are aligning our specifications with the **CNCF TAG** to help define an open,
 
 ---
 
+## 📘 Executive Briefings (Optional Context)
+
+For stakeholders evaluating Rainminds, Gantral, and Gantrio from an
+enterprise, risk, or regulatory perspective, we maintain a short set of
+executive briefings that explain:
+
+- what the system is,
+- how work changes after adoption,
+- how it scales across teams,
+- and why it stands up to regulatory scrutiny.
+
+These materials are **not required** to understand or contribute to the
+open-source project, but are useful context for enterprise discussions.
+
+- [Gantral & Gantrio — Executive Overview](https://youtu.be/WEbsdmBWkRI)
+- [What Changes After Adoption](https://youtu.be/g59alKYgF2Y)
+- [The AI Execution Plane](https://youtu.be/Iqsmg5ipRTY)
+- [Regulatory & Compliance Outcomes](https://youtu.be/vwPRMOoXW9o)
+
+---
+
 > *We don’t help you build agents.  
 > We help you run AI safely across your organization.*
 
