@@ -161,7 +161,7 @@ executive briefings that explain:
 - and why it stands up to regulatory scrutiny.
 
 These materials are **not required** to understand or contribute to the
-open-source project, but are useful context for enterprise discussions.
+open-source project, but are useful contexts for enterprise discussions.
 
 - [Gantral & Gantrio — Executive Overview](https://youtu.be/WEbsdmBWkRI)
 - [What Changes After Adoption](https://youtu.be/g59alKYgF2Y)
