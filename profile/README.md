@@ -1,181 +1,224 @@
 # Rainminds
 
-> **The AI Execution Control Plane**
+> **Building the AI Execution Control Plane**
 
-[Mission](#-mission) • [Projects](#-projects) • [Community](#-community--standards) • [Contact](mailto:abhishek@rainminds.com)
+[Mission](#-mission) • [Projects](#-projects) • [Governance Problem](#-the-enterprise-governance-crisis) • [Community](#-community--standards) • [Contact](mailto:abhishek@rainminds.com)
 
 ---
 
 ## 🚀 Mission
 
-**Enterprises are moving from “Building Agents” to “Governing Agent Fleets.”**
+**Enterprises are moving from “building agents” to “governing agent fleets.”**
 
-The current stack is fragmented. Teams build AI agents using powerful frameworks, but lack a **shared execution, control, and accountability layer** when those agents run inside real enterprise processes.
+AI adoption is accelerating, but governance is breaking.
 
-We are building the **AI Execution Control Plane** that sits:
-- **above** agent frameworks (LangChain, Vellum, CrewAI, custom),
-- **below** enterprise processes and compliance policies.
+Teams build powerful agents using modern frameworks, yet lack a **shared execution, control, and accountability layer** once those agents operate inside real enterprise systems.
 
-Think of **Rainminds** as **Kubernetes for AI execution semantics** —  
-with **Human-in-the-Loop (HITL) as a first-class control primitive**.
+Rainminds is the company building infrastructure to solve this problem.
 
-We standardize how AI workflows:
-- execute,
-- pause for human authority,
-- escalate risk,
-- and prove accountability.
+We build products that standardize **how AI-driven actions are allowed to run** — not how agents think.
+
+At the core of this effort is **Gantral**.
+
+---
+
+## 🧠 What Is Gantral?
+
+Gantral is an **open-source AI Execution Control Plane**.
+
+It standardizes how AI-enabled workflows are **executed, paused, escalated, approved, overridden, and audited** across teams and systems.
+
+Gantral exists to solve a specific enterprise problem:
+
+> **AI adoption breaks execution control and accountability — not just model quality.**
+
+As AI tools spread across the software development lifecycle (SDLC) and operational workflows, organizations lose consistent answers to fundamental questions:
+
+- What ran?
+- Under whose authority?
+- With what configuration?
+- What human approved or overrode the outcome?
+- Can this decision be replayed and audited?
+
+Gantral provides **infrastructure-level guarantees** to record and surface these answers.
+
+---
+
+## ⚖️ The Core Idea: Authority vs. Intelligence
+
+Gantral introduces a **shared execution plane** that separates **Authority** from **Reasoning**.
+
+- **Agents** (CrewAI, LangGraph, custom) provide the *intelligence*: planning, reasoning, tool use, and memory.
+- **Gantral** provides the *authority*: deciding whether execution may proceed, pausing for human input, enforcing outcomes, and recording decisions.
+
+This separation prevents AI-driven execution from advancing past governed states without explicit authorization.
+
+Think of **Gantral** as **Kubernetes for AI execution semantics** —  
+with **Human-in-the-Loop (HITL)** as a first-class control primitive.
+
+---
+
+## 🏃 How Gantral Works (Federated Runner Model)
+
+Gantral does **not** host or run your agents like a PaaS.
+
+It uses a **Federated Runner model**, similar in spirit to GitHub Actions:
+
+1. **Agents** run in your own infrastructure (Kubernetes, VMs, serverless).
+2. **Runners** pull execution tasks from Gantral.
+3. **Gantral** enforces execution authority and policy gates.
+4. If human input is required, execution transitions to `WAITING_FOR_HUMAN`.
+5. The agent process exits cleanly (zero CPU usage).
+6. After approval or override, Gantral reschedules execution and a new agent process resumes work.
+
+Gantral is the **authority layer**.  
+Runners are **executors**.  
+Agent state remains **framework-owned**.
+
+---
+
+## 🚨 The Enterprise Governance Crisis
+
+Large organizations face two structural failures when scaling AI:  
+**Operational Fragmentation** and **Broken Chain of Custody**.
+
+---
+
+### 1. Operational Fragmentation  
+*(The “Shadow Runbook” Problem)*
+
+Without a shared execution control plane, critical decision logic gets buried inside agent prompts and scripts.
+
+- **Hidden Logic**  
+  Business-critical rules (e.g. *“Only restart DB if latency > 5s”*) live in natural-language prompts or agent code, creating *shadow runbooks* that platform and compliance teams cannot audit, version, or update.
+
+- **Siloed Implementations**  
+  Each team reinvents safety checks, approval logic, and escalation paths, leading to inconsistent enforcement of organizational policy.
+
+**Gantral decouples decision criteria from agent prompts.**  
+It lets platform teams enforce deterministic, centrally governed policy on top of probabilistic agents — without rewriting agent logic.
+
+---
+
+### 2. Broken Chain of Custody  
+*(The “Disconnected Evidence” Problem)*
+
+Even when humans are involved, the link between **facts** and **approvals** is often broken.
+
+- **The Self-Reporting Fallacy**  
+  Agents summarize logs or metrics for humans. These summaries can be incomplete or wrong. Humans approve based on the agent’s narrative, and the audit trail looks “valid” for an invalid justification.
+
+- **The Air Gap**  
+  An agent recommends an action, and a human executes it manually in a separate system. There is no durable link between the context at approval time and the action taken.
+
+**Gantral acts as the execution anchor layer.**
+
+It binds:
+- execution context references at time of decision  
+- the human approval or override  
+- the enforced execution outcome  
+
+into a **single, immutable execution record**.
+
+Gantral does not interpret evidence or tool payloads.  
+It ensures that **no governed action proceeds without a recorded, attributable human decision tied to the exact execution context that justified it**.
+
+---
+
+## 🧩 Conceptual Architecture
 
 ```mermaid
-graph TD
-  subgraph Enterprise["Enterprise Protocols"]
-    Systems[Jira / GitHub / CI-CD]
-    Policies[Compliance / RBAC]
-  end
+flowchart TB
+    DEV["Agents and Tools
+Reasoning, Planning, Memory"]
 
-  subgraph Rainminds["Rainminds Control Plane"]
-    Engine[Execution Engine]
-    HITL[HITL State Machine]
-    Audit[Immutable Audit Log]
-  end
+    subgraph G["Gantral Execution Authority"]
+        SM["Execution State Machine"]
+        HITL["Human Approval Gate"]
+        POL["Policy Interface"]
+        AUD["Audit Log"]
+    end
 
-  subgraph Agents["Agent Layer"]
-    Frameworks[LangChain / Vellum / Custom]
-    Models[LLMs / Inference]
-  end
+    RUN["Runners
+Team-owned Infrastructure"]
 
-  Enterprise <--> Rainminds
-  Rainminds <--> Agents
+    DEV -->|Request Execution| G
+    G --> SM
+    SM --> POL
+    POL --> SM
+    SM -->|WAITING_FOR_HUMAN| HITL
+    HITL --> SM
+    SM -->|Schedule| RUN
+    RUN -->|Execute| DEV
+    SM --> AUD
 ```
 
 ---
 
-## ❗ What We Build (and What We Don’t)
+## 🧱 What Gantral Owns (and Does Not)
 
-Rainminds builds and stewards two tightly-coupled projects:
+Gantral owns **execution semantics**, not agent intelligence.
 
-- **Gantral** — the open-source AI execution control plane
-- **Gantrio** — the managed enterprise platform built on top of Gantral
+### Gantral provides
 
-### Gantral IS
-- An AI execution control plane
-- A system of record for AI + human decisions
-- Infrastructure for Human-in-the-Loop (HITL), policy enforcement, and auditability
-- Framework-agnostic and vendor-neutral
+* Deterministic execution state machine
+* HITL as a blocking state transition
+* Instance-level isolation for audit and accountability
+* Declarative control via pluggable policy interfaces
+* Immutable execution records with deterministic replay
 
-### Gantral IS NOT
-- An agent builder
-- An autonomous AI platform
-- A CI/CD or workflow engine replacement
-- A system that allows AI to bypass human authority
+### Gantral explicitly does not
 
----
+* Store or manage agent memory
+* Inspect or reason over tool payloads
+* Author business logic
+* Make autonomous decisions
+* Optimize or route models
 
-## 🛡️ Compliance & Risk Outcomes
-
-We designed the Rainminds control plane to satisfy strict regulatory frameworks out of the box. Implementation directly supports compliance with:
-
-| Standard | Outcome via Rainminds |
-| :--- | :--- |
-| **EU AI Act (Art. 14)** | **Human Oversight:** Mechanical guarantee that high-risk agents cannot execute without human state transition (`WAITING_FOR_HUMAN`). |
-| **NIST AI RMF** | **Governance:** Policy-as-code ensures legal/risk requirements are enforced physically at the infrastructure layer. |
-| **Banking (SR 11-7)** | **Effective Challenge:** Immutable logs capture *why* humans rejected/overrode AI, creating the feedback loop required by model risk auditors. |
-| **SOC 2 Type II** | **Auditability:** Tamper-evident execution ledgers prove exactly who approved what, and when. |
+Gantral is intentionally **boring, predictable, and auditable**.
 
 ---
 
 ## 🛠 Projects
 
-### 🟢 [Gantral](https://github.com/Rainminds/gantral) (Open Source)
-**Status: In Development (Private Beta)**  
+### 🟢 Gantral — Open Source
+
 *The Standard for Safe AI Execution.*
 
-Just as  **Istio** manages traffic between microservices, **Gantral** manages **risk and authority** between AI agents and humans.
+An execution control plane that enforces authority, human oversight, and auditability for AI-driven actions.
 
-**Core ideas:**
-- Control, not autonomy
-- Determinism over cleverness
-- Auditability before optimization
+### 🔵 Gantrio — Enterprise Platform
 
-**Key capabilities:**
+*The operational surface for Gantral.*
 
-- **Instance-First Execution Model (Core Differentiator):**  
-  Every policy, approval, cost, and audit trail attaches to a **specific execution instance** — not a shared agent. This guarantees isolation, replayability, and accountability across teams.
+Gantrio provides the enterprise UX and managed capabilities required to operate Gantral at scale in regulated environments.
 
-- **Deterministic State Machine:**  
-  HITL is a first-class state transition. Agents don’t just “stop”; they enter a `WAITING_FOR_HUMAN` state that is auditable, secure, and resumable.
-
-- **Policy-as-Code:**  
-  Define materiality and authority rules (e.g. “Always require approval for prod DB writes” or “Escalate transactions > $50”) using declarative YAML/JSON.
-
-🔜 **Public repo launching Q1 2026**  
-📩 [Request Early Access](mailto:abhishek@rainminds.com?subject=Gantral%20Early%20Access)
-
----
-
-### 🔵 Gantrio (Enterprise)
-**Status: Design-Partner Phase**  
-*The Control Plane for Regulated Industries.*
-
-Gantrio is the managed, enterprise-grade platform built on top of Gantral.
-
-It provides the operational surface area enterprises need to **run AI safely at scale**, especially in regulated environments.
-
-**Capabilities:**
-
-- **Unified Audit Trail:**  
-  Every agent action, human approval, and override is logged in a tamper-evident ledger (SOC2 / GDPR ready).
-
-- **Cost & Token Governance:**  
-  Fine-grained budgets and quotas enforced per **team and project**, not just per model.
-
-- **RBAC & Governance:**  
-  Granular permissions for human-agent collaboration, approvals, and escalation paths.
+Rainminds currently builds **Gantral** and **Gantrio**, and may build additional products in the future.
 
 ---
 
 ## 🧩 Where Rainminds Fits
 
-- **Below** agent builders (LangChain, Vellum, CrewAI)
-- **Above** enterprise tools (GitHub, Jira, CI/CD, ServiceNow)
-- **Alongside** compliance, risk, and governance systems
+* **Below** agent builders and orchestration frameworks
+* **Above** enterprise systems and workflows
+* **Alongside** risk, compliance, and governance functions
+
+Rainminds builds the infrastructure that lets these layers work together safely.
 
 ---
 
 ## 🤝 Community & Standards
 
-We believe in **“Listen, Then Lead.”**
+We believe in **“listen, then lead.”**
 
-We are aligning our specifications with the **CNCF TAG** to help define an open, vendor-neutral **Agent Governance Standard** before the ecosystem fragments.
-
----
-
-## 📘 Executive Briefings (Optional Context)
-
-For stakeholders evaluating Rainminds, Gantral, and Gantrio from an
-enterprise, risk, or regulatory perspective, we maintain a short set of
-executive briefings that explain:
-
-- what the system is,
-- how work changes after adoption,
-- how it scales across teams,
-- and why it stands up to regulatory scrutiny.
-
-These materials are **not required** to understand or contribute to the
-open-source project, but are useful contexts for enterprise discussions.
-
-- [Gantral & Gantrio — Executive Overview](https://youtu.be/WEbsdmBWkRI)
-- [What Changes After Adoption](https://youtu.be/g59alKYgF2Y)
-- [The AI Execution Plane](https://youtu.be/Iqsmg5ipRTY)
-- [Regulatory & Compliance Outcomes](https://youtu.be/vwPRMOoXW9o)
+Rainminds is engaging with the ecosystem to help shape **open, vendor-neutral standards for AI execution governance**, before fragmentation becomes irreversible.
 
 ---
 
-> *We don’t help you build agents.  
-> We help you run AI safely across your organization.*
+> *We don’t help you build agents.*
+> *We help you run AI safely across your organization.*
 
 ---
 
-<p align="center">
-  Built by the Rainminds team.<br>
-  © 2025 Rainminds Solutions Private Limited.
-</p>
+Built by the Rainminds team.
+© 2025 Rainminds Solutions Private Limited.
