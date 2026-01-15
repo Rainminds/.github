@@ -44,6 +44,23 @@ Gantral provides **infrastructure-level guarantees** to record and surface these
 
 ---
 
+## 📄 Position Paper
+
+Rainminds publishes a **vendor-neutral position paper** defining the **AI Execution Control Plane** as a missing infrastructure layer for execution-time governance in AI-assisted systems.
+
+These documents are **not product documentation**.  
+They define the problem space, execution semantics, and accountability model independent of any specific implementation.
+
+- **AI Execution Control Plane — Executive Summary**  
+  A concise overview for platform leaders, architects, and decision-makers.  
+  → https://gantral.org/papers
+
+- **AI Execution Control Plane — Position Paper**  
+  The full, non-normative paper covering execution authority, determinism, and auditability.  
+  → https://gantral.org/papers
+
+---
+
 ## ⚖️ The Core Idea: Authority vs. Intelligence
 
 Gantral introduces a **shared execution plane** that separates **Authority** from **Reasoning**.
