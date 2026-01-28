@@ -2,19 +2,19 @@
 
 > **Building Infrastructure for Governed AI Execution**
 
-[Mission](#-mission) • [Projects](#-projects) • [Core Problem](#-the-execution-governance-gap) • [Community](#-community--standards) • [Contact](mailto:abhishek@rainminds.com)
+[Mission](#-mission) • [Projects](#-projects) • [Execution Governance](#-the-execution-governance-gap) • [Community](#-community-and-standards) • [Contact](mailto:abhishek@rainminds.com)
 
 ---
 
 ## 🚀 Mission
 
-AI systems are moving from isolated experiments to **long-running, operational workloads** inside enterprises.
+AI systems are evolving from isolated experiments into **long-running, operational workloads** embedded inside real organizational processes.
 
-While agent frameworks and models have advanced rapidly, organizations lack shared infrastructure for **governing execution, enforcing human authority, and producing durable audit records** once AI systems act inside real workflows.
+While agent frameworks and models have advanced rapidly, many organizations lack shared infrastructure for **governing execution, enforcing human authority, and producing durable audit records** once AI systems act in production environments.
 
 Rainminds builds infrastructure to address this gap.
 
-We focus on **how AI-driven actions are allowed to run** — not on how agents reason or plan.
+Our focus is on **how AI-driven actions are allowed to run** — not on how agents reason, plan, or generate outputs.
 
 ---
 
@@ -39,7 +39,7 @@ It defines **when execution may proceed** and **how that decision is recorded**.
 Rainminds publishes a vendor-neutral position paper defining the **AI Execution Control Plane** as a missing infrastructure layer for execution-time governance.
 
 These documents are **not product documentation**.  
-They describe execution semantics, authority boundaries, and audit requirements independent of any implementation.
+They describe execution semantics, authority boundaries, and audit requirements independent of any specific implementation.
 
 - **AI Execution Control Plane — Executive Summary**  
   → https://gantral.org/papers
@@ -49,19 +49,16 @@ They describe execution semantics, authority boundaries, and audit requirements 
 
 ---
 
-## ⚖️ Core Principle: Authority vs. Intelligence
+## ⚖️ Core Principle: Authority and Intelligence
 
-Gantral formalizes a separation that already exists implicitly in enterprises:
+Modern AI systems already separate two concerns:
 
-- **Agents** provide intelligence  
-  (reasoning, planning, tool use, memory)
+- **Intelligence** — reasoning, planning, tool use, and memory  
+- **Authority** — deciding whether actions may proceed, pause, or terminate
 
-- **Execution authority** determines  
-  whether actions may proceed, pause, or terminate
+Gantral formalizes this separation at execution time.
 
-Gantral enforces this boundary at runtime.
-
-This prevents AI-assisted execution from advancing past governed states without **explicit, attributable human authorization**.
+This ensures that AI-assisted execution does not advance past governed states without **explicit, attributable human authorization**.
 
 ---
 
@@ -75,7 +72,7 @@ Gantral uses a **federated execution model**:
 4. If human input is required, execution transitions to an explicit waiting state
 5. Execution resumes deterministically after approval or override
 
-Gantral manages **execution state and authority**, not agent logic or data.
+Gantral manages **execution state and authority**, not agent logic, data, or memory.
 
 ---
 
@@ -121,7 +118,7 @@ An execution authority layer for AI-assisted systems, designed to be:
 - self-hosted
 - deterministic
 - framework-agnostic
-- foundation-neutral
+- ecosystem-neutral
 
 ### 🔵 Gantrio — Enterprise Platform
 
@@ -139,7 +136,7 @@ for governed AI execution in real operational environments.
 Gantral is the first open-source project in this effort.
 
 Future Rainminds products may address related or adjacent problems, but each
-project is designed to have clear scope, boundaries, and integration surfaces.
+project is designed with clear scope, boundaries, and integration surfaces.
 
 ---
 
@@ -147,7 +144,8 @@ project is designed to have clear scope, boundaries, and integration surfaces.
 
 Rainminds engages with the broader ecosystem to help shape **open, vendor-neutral approaches** to AI execution governance.
 
-We aim to collaborate across communities and foundations, without locking the work to any single ecosystem.
+Our work is designed to remain compatible with multiple infrastructure ecosystems
+and to evolve in collaboration with the community.
 
 ---
 
