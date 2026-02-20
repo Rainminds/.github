@@ -1,6 +1,6 @@
 # Rainminds
 
-> **Building Infrastructure for Governed AI Execution**
+> **Building Infrastructure for Deterministic AI Execution**
 
 [Mission](#-mission) • [Projects](#-projects) • [Execution Governance](#-the-execution-governance-gap) • [Community](#-community-and-standards) • [Contact](mailto:abhishek@rainminds.com)
 
@@ -10,41 +10,40 @@
 
 AI systems are evolving from isolated experiments into **long-running, operational workloads** embedded inside real organizational processes.
 
-As agentic systems begin executing actions with financial, operational, and security consequences, organizations face a structural gap:
+As agentic systems begin executing actions with financial, operational, and security consequences, organizations face three structural challenges:
 
-Execution-time authority is rarely enforced as infrastructure.
+- Operational inefficiency caused by policy–code duplication  
+- Operational fragmentation across governance and runtime layers  
+- Broken chain-of-custody at execution boundaries  
 
-While models and orchestration frameworks have advanced rapidly, many enterprises lack shared infrastructure to:
-
-- enforce execution-time authority deterministically  
-- separate policy thresholds from workflow code  
-- prevent governance drift across teams  
-- bind identity and version at decision time  
-- produce durable, replayable execution evidence  
+While models and orchestration frameworks have advanced rapidly, execution-time authority is rarely enforced as infrastructure.
 
 Rainminds builds infrastructure to close this gap.
 
-Our focus is not on how agents reason.  
-Our focus is on **how AI-driven actions are allowed to run**.
+Our focus is not how agents reason.  
+Our focus is **how AI-driven actions are allowed to run — deterministically, transparently, and verifiably.**
 
 ---
 
-## 🧠 Gantral
+## 🟢 Gantral
 
-At the core of this work is **Gantral**, an open-source **AI Execution Control Plane**.
+> **Execution Infrastructure for Deterministic Agentic AI**  
+> *Unify execution, separate policy from code, and make authority replayable.*
 
-Gantral addresses three structural challenges in enterprise AI systems:
+Gantral is an open-source Execution Control Plane for Agentic AI systems.
+
+It introduces deterministic authority semantics into agentic workflows and addresses three systemic failures identified in the Gantral implementation paper:
 
 ### 1️⃣ Operational Inefficiency
 
-Governance thresholds are frequently embedded directly into workflow code:
+In many enterprise systems:
 
-- Monetary limits hardcoded in agents  
-- Risk thresholds implemented in orchestration logic  
-- Team-specific approval rules implemented as workflow forks  
-- Environment-specific deployments differing only in approval parameters  
+- Approval thresholds are hardcoded into agent logic  
+- Risk limits are embedded inside orchestration code  
+- Teams fork workflows to reflect different governance parameters  
+- Policy updates require redeployment  
 
-This creates policy–code duplication, redeployment risk, and configuration drift.
+This creates duplication, drift, and change risk.
 
 Gantral separates policy thresholds from workflow implementation and binds decisions to versioned policy bundles.
 
@@ -54,13 +53,13 @@ Gantral separates policy thresholds from workflow implementation and binds decis
 
 Authority is often evaluated in one system and enforced in another:
 
-- Policy engines detached from execution runtime  
-- Human approvals recorded outside the workflow state graph  
-- Logs capturing events without structural binding to execution state  
+- Policy engines detached from runtime  
+- Human approvals outside the workflow state graph  
+- Logs recording events without structural binding  
 
-In such systems, authority exists as a record — not as canonical execution state.
+Gantral binds authority directly to deterministic workflow state transitions.
 
-Gantral binds authority directly to deterministic workflow transitions.
+Authority becomes canonical execution state — not an after-the-fact record.
 
 ---
 
@@ -73,50 +72,23 @@ Without cryptographic binding:
 3. Execution resumes  
 4. Logs attempt reconstruction  
 
-Reconstruction depends on runtime access, log integrity, and operator testimony.
+Reconstruction depends on runtime access and log integrity.
 
 Gantral replaces reconstruction with deterministic replay.
 
----
+Authority transitions emit cryptographically chained commitment artifacts that:
 
-## ⚖️ Core Principle: Authority and Intelligence
+- Bind workflow_version_id  
+- Bind policy_version_id  
+- Bind identity at approval time  
+- Bind context snapshot inputs  
+- Support offline replay verification  
 
-Modern AI systems already separate:
-
-- **Intelligence** — reasoning, planning, tool use, memory  
-- **Authority** — deciding whether execution may proceed  
-
-Gantral formalizes this separation at execution time.
-
-Authority becomes:
-
-- Canonical workflow state  
-- Identity-bound  
-- Version-bound  
-- Cryptographically committed  
-- Independently replayable  
-
-Intelligence may evolve.  
-Authority must remain deterministic.
+Replay requires no runtime or database access.
 
 ---
 
-## 🏃 Federated Execution Model (High Level)
-
-Gantral operates as an execution control plane between agents and deterministic runtime infrastructure.
-
-1. Agent code runs in **team-owned infrastructure**  
-2. Agent requests execution authorization  
-3. Gantral evaluates policy advisories and execution state  
-4. If required, execution transitions to `WAITING_FOR_HUMAN`  
-5. Upon approval, Gantral emits a commitment artifact  
-6. Execution resumes deterministically  
-
-Gantral manages **authority state and artifact emission**, not agent logic or memory.
-
----
-
-## 🔐 Deterministic Authority Model
+### Deterministic Authority Model
 
 Gantral defines a canonical authority state machine:
 
@@ -127,20 +99,57 @@ CREATED → RUNNING → WAITING_FOR_HUMAN
 Authority transitions:
 
 - Are atomic with artifact emission  
-- Bind workflow_version_id and policy_version_id  
-- Include identity validation via OIDC  
-- Include structured justification  
-- Form a recursive hash chain  
+- Are version-bound  
+- Are identity-validated  
+- Are append-only  
+- Are replay-verifiable  
 
-Artifacts are append-only and tamper-evident.
+Gantral enforces execution-time authority as infrastructure.
 
-Replay verifies:
+---
 
-- Hash-chain integrity  
-- Transition validity  
-- Version consistency  
+## 🔵 Gantrio
 
-Replay requires no runtime, database, or log access.
+> **Enterprise Execution Platform for Deterministic Agentic AI**  
+> *Operational visibility, policy agility, and execution intelligence at enterprise scale.*
+
+Gantrio extends Gantral into an enterprise operational platform.
+
+While Gantral defines deterministic authority semantics, Gantrio provides the operational surface for organizations to:
+
+- Gain unified visibility into running and paused workflows  
+- Update policy thresholds without redeploying workflows  
+- Monitor execution authority states across environments  
+- Track cost metrics and materiality thresholds  
+- Analyze decision patterns and approval behavior  
+- Manage execution governance at enterprise scale  
+
+Gantrio is built around deterministic execution semantics.  
+It does not replace Gantral — it operationalizes it.
+
+Gantral remains open-source and independently usable.
+
+---
+
+## ⚖️ Core Principle: Intelligence vs Authority
+
+Modern AI systems already separate:
+
+- **Intelligence** — reasoning, planning, tool use, memory  
+- **Authority** — whether execution may proceed  
+
+Rainminds formalizes this separation at execution time.
+
+Authority becomes:
+
+- Deterministic  
+- Version-bound  
+- Identity-bound  
+- Cryptographically committed  
+- Independently replayable  
+
+Intelligence may evolve.  
+Authority must remain structurally verifiable.
 
 ---
 
@@ -149,25 +158,25 @@ Replay requires no runtime, database, or log access.
 As AI adoption scales, organizations commonly encounter:
 
 ### Operational Fragmentation  
-Governance logic scattered across prompts, scripts, orchestration layers, and team-specific conventions.
-
-### Broken Chain of Custody  
-AI recommendations, human approvals, and execution outcomes not captured as a single verifiable chain.
+Governance logic scattered across prompts, scripts, orchestration layers, and team conventions.
 
 ### Policy–Code Duplication  
-Approval thresholds embedded in agent logic, requiring redeployment for policy changes.
+Approval thresholds embedded in workflow logic, requiring redeployment for policy changes.
 
-Gantral exists to address these failures **at execution time**.
+### Broken Chain of Custody  
+AI decisions and human approvals not captured as a single replayable authority record.
+
+Rainminds infrastructure exists to address these failures at execution time.
 
 ---
 
 ## 📄 Research & Specification
 
-Gantral is grounded in a formal body of work, defining:
+Gantral is grounded in formal research defining:
 
-- The AI Execution Control Plane as a missing infrastructure layer
-- Admissible execution invariants for authority
-- A deterministic reference implementation
+- The AI Execution Control Plane as a missing infrastructure layer  
+- Admissible execution invariants for authority  
+- A deterministic reference implementation with cryptographic artifact chaining  
 
 These documents define execution semantics independent of product marketing and serve as the architectural foundation for Gantral.
 
@@ -175,54 +184,29 @@ These documents define execution semantics independent of product marketing and 
 
 ---
 
-## 🧱 Scope and Boundaries
-
-Gantral is intentionally constrained.
-
-It **does**:
-
-- enforce execution-time authority as state  
-- model human-in-the-loop as a blocking workflow state  
-- emit cryptographically chained commitment artifacts  
-- bind workflow and policy versions at decision time  
-- support independent replay verification  
-
-It **does not**:
-
-- build or host agents  
-- persist agent memory or reasoning traces  
-- author domain-specific business logic  
-- interpret tool payloads  
-- replace workflow runtimes  
-- make autonomous decisions  
-
-Determinism and auditability take precedence over flexibility.
-
----
-
 ## 🛠 Projects
 
 ### 🟢 Gantral — Open Source
 
-An execution authority layer for AI-assisted systems designed to be:
+Execution infrastructure for deterministic agentic AI.
 
-- self-hosted  
-- deterministic  
-- framework-agnostic  
-- ecosystem-neutral  
-- replay-verifiable  
-
-Gantral is an open-source initiative stewarded by Rainminds Solutions Private Limited.
+- Self-hosted  
+- Deterministic  
+- Framework-agnostic  
+- Policy-separating  
+- Replay-verifiable  
 
 ---
 
 ### 🔵 Gantrio — Enterprise Platform
 
-Gantrio provides enterprise-focused operational capabilities around Gantral, including:
+Operational and intelligence platform built on Gantral.
 
-- operational interfaces  
-- governance dashboards  
-- managed deployment options  
+- Unified workflow visibility  
+- Policy agility without redeploy  
+- Cost and materiality metrics  
+- Execution intelligence  
+- Enterprise governance controls  
 
 Gantral remains independently usable and open.
 
@@ -230,33 +214,38 @@ Gantral remains independently usable and open.
 
 ## 🧩 Rainminds’ Role
 
-Rainminds builds and stewards infrastructure for governed AI execution.
+Rainminds builds and stewards infrastructure for deterministic AI execution.
 
-Our work focuses on execution-time semantics, authority enforcement, and replay determinism — not model optimization or agent tooling.
+Our work focuses on:
 
-Gantral is the foundational open-source project in this effort.
+- Execution-time semantics  
+- Authority enforcement  
+- Deterministic replay  
+- Operational unification  
 
-Future Rainminds initiatives may extend operational capabilities while preserving clear architectural boundaries.
+We do not build agent frameworks.  
+We do not optimize models.  
+We define the execution layer beneath them.
 
 ---
 
 ## 🤝 Community and Standards
 
-Rainminds engages with the broader ecosystem to shape **vendor-neutral execution governance infrastructure**.
+Rainminds engages with the broader ecosystem to shape **vendor-neutral execution infrastructure for agentic AI**.
 
 Gantral is designed to:
 
-- remain composable across ecosystems  
-- avoid vendor lock-in  
-- enforce explicit responsibility boundaries  
-- evolve in collaboration with contributors  
+- Remain composable across ecosystems  
+- Avoid vendor lock-in  
+- Enforce explicit responsibility boundaries  
+- Evolve collaboratively  
 
-We believe execution authority should be infrastructure, not convention.
+We believe execution authority should be infrastructure — not convention.
 
 ---
 
 > *We don’t help teams build agents.*  
-> *We help organizations run AI with explicit authority.*
+> *We help organizations run agentic AI deterministically.*
 
 ---
 
