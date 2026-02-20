@@ -163,13 +163,11 @@ Gantral exists to address these failures **at execution time**.
 
 ## 📄 Research & Specification
 
-Gantral is grounded in a formal body of work defining:
+Gantral is grounded in a formal body of work, defining:
 
-The AI Execution Control Plane as a missing infrastructure layer
-
-Admissible execution invariants for authority
-
-A deterministic reference implementation
+- The AI Execution Control Plane as a missing infrastructure layer
+- Admissible execution invariants for authority
+- A deterministic reference implementation
 
 These documents define execution semantics independent of product marketing and serve as the architectural foundation for Gantral.
 
